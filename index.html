@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monacafe</title>
+    <!-- Google Fonts: Poppins Only -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-brown: #3E2723;
+            --accent-brown: #6D4C41;
+            --button-color: #5D4037;
+            /* Premium warm background */
+            --bg-gradient: linear-gradient(135deg, #fdfbf7 0%, #f0ece6 100%);
+            --card-shadow: 0 20px 40px rgba(62, 39, 35, 0.08);
+            --text-color: #2c2c2c;
+            --gray-text: #795548;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-color);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            color: var(--primary-brown);
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* Decorative Background Elements (Subtle Blurs) */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: -100px;
+            width: 500px;
+            height: 500px;
+            background: rgba(109, 76, 65, 0.05);
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            top: 40%;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: rgba(109, 76, 65, 0.03);
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        /* Header */
+        header {
+            padding: 30px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--primary-brown);
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-brown);
+        }
+
+        .btn-header {
+            background-color: var(--button-color);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(93, 64, 55, 0.3);
+        }
+        
+        .btn-header:hover {
+            background-color: var(--primary-brown);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 40px 0 100px 0;
+            min-height: 85vh;
+        }
+
+        .hero-text {
+            flex: 1;
+            z-index: 2;
+        }
+
+        .hero-text h1 {
+            font-size: 4.5rem;
+            line-height: 1.15;
+            margin-bottom: 25px;
+            color: #1a1a1a;
+        }
+
+        .hero-text h1 span {
+            color: var(--primary-brown);
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background-color: var(--button-color);
+            color: white;
+            padding: 14px 35px;
+            border-radius: 30px;
+            margin-top: 10px;
+            font-weight: 600;
+            box-shadow: 0 10px 20px rgba(62, 39, 35, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(62, 39, 35, 0.4);
+            background-color: var(--primary-brown);
+        }
+
+        .hero-image {
+            flex: 1.2;
+            display: flex;
+            justify-content: flex-end;
+            position: relative;
+        }
+
+        /* The Transparent Cup Image */
+        .hero-image img {
+            width: 100%;
+            max-width: 550px;
+            /* Drop shadow to make it look seated/floating appropriately */
+            filter: drop-shadow(0 30px 30px rgba(0,0,0,0.25));
+            animation: float 5s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(1deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        /* Menu Section */
+        .menu-section {
+            padding: 40px 0 100px 0;
+        }
+
+        .menu-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 180px;
+        }
+
+        .menu-row.reverse {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+        
+        .menu-row.reverse .text-content { order: 1; }
+        .menu-row.reverse .product-card:nth-child(2) { order: 2; }
+        .menu-row.reverse .product-card:nth-child(3) { order: 3; }
+
+        /* Product Card */
+        .product-card {
+            background: white;
+            border-radius: 35px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            margin-top: 70px; /* Space for the floating cup */
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .product-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 50px rgba(62, 39, 35, 0.15);
+        }
+
+        .card-img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-top: -105px; /* Pull image up */
+            margin-bottom: 25px;
+            border: 6px solid white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .product-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
+
+        .product-card p {
+            font-size: 0.85rem;
+            color: var(--gray-text);
+            margin-bottom: 25px;
+            line-height: 1.6;
+            padding: 0 10px;
+        }
+
+        .card-actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 25px;
+            color: #4a4a4a;
+        }
+
+        .card-actions i {
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .card-actions i:hover {
+            color: var(--primary-brown);
+        }
+
+        .price-badge {
+            background-color: #2b1b17;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Text Content Block */
+        .text-content {
+            padding: 20px;
+        }
+
+        .text-content h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .text-content p {
+            color: var(--gray-text);
+            margin-bottom: 35px;
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        /* App Section */
+        .app-section {
+            display: flex;
+            align-items: center;
+            padding: 60px 40px;
+            /* White background for the section to stand out from the beige body */
+            background: white;
+            border-radius: 50px;
+            margin: 50px 0;
+            box-shadow: var(--card-shadow);
+        }
+
+        .app-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .app-image img {
+            max-width: 100%;
+            width: 450px;
+            border-radius: 20px;
+            /* Placeholder styling */
+            filter: drop-shadow(0 15px 30px rgba(0,0,0,0.1));
+        }
+
+        .app-content {
+            flex: 1;
+            padding-left: 60px;
+        }
+
+        .app-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .app-content p {
+            color: var(--gray-text);
+            margin-bottom: 40px;
+            line-height: 1.7;
+        }
+
+        .app-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .app-btn {
+            background: #f9f9f9;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            color: #333;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .app-btn:hover {
+            background: #eee;
+            transform: translateY(-2px);
+        }
+        
+        .app-btn i {
+            font-size: 1.2rem;
+            color: var(--primary-brown);
+        }
+
+        /* Reserve & Footer */
+        .reserve-section {
+            text-align: left;
+            padding: 80px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        
+        .reserve-section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(0,0,0,0.1), transparent);
+        }
+
+        .reserve-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .reserve-text p {
+             color: var(--gray-text);
+             max-width: 600px;
+             line-height: 1.6;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            padding: 70px 80px;
+            background-color: white;
+            border-radius: 40px;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.03);
+            margin-top: 20px;
+            margin-bottom: 50px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: #1a1a1a;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 15px;
+            color: #666;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .footer-col ul li:hover {
+            color: var(--primary-brown);
+            transform: translateX(5px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero {
+                flex-direction: column-reverse;
+                text-align: center;
+                justify-content: center;
+                padding-top: 20px;
+            }
+            
+            .hero-text h1 { font-size: 3.5rem; }
+            .hero-image { margin-bottom: 40px; }
+            .hero-image img { max-width: 400px; }
+
+            .menu-row, .menu-row.reverse {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .text-content { grid-column: span 2; text-align: center; margin-bottom: 30px;}
+            .menu-row.reverse .text-content { order: -1; } 
+            
+            .app-section { flex-direction: column-reverse; text-align: center; padding: 40px 20px;}
+            .app-content { padding-left: 0; margin-bottom: 40px; }
+            .app-buttons { justify-content: center; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; } /* Mobile Menu Placeholder */
+            
+            .hero-text h1 { font-size: 2.8rem; }
+            
+            .menu-row, .menu-row.reverse {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+            .text-content { grid-column: span 1; }
+            
+            .reserve-section { flex-direction: column; text-align: center; gap: 30px; }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+                padding: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">MONACAFE</div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#">Menu</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </nav>
+            <a href="#" class="btn-header">Coffee Shops</a>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-text">
+                <h1>Coffee<br><span>The Best For You</span></h1>
+                <p style="color: #666; margin-bottom: 30px; font-size: 1.1rem; max-width: 500px;">
+                    Experience the rich flavor of premium beans, roasted to perfection for your daily delight.
+                </p>
+                <a href="#" class="btn-primary">Order Now</a>
+            </div>
+            <div class="hero-image">
+                <!-- Top-down transparent cup to match "Best for You" aesthetic -->
+                <img src="hero-img.png" alt="Premium Coffee Cup" >
+            </div>
+        </section>
+
+        <!-- Product Grid Row 1 -->
+        <section class="menu-section">
+            <div class="menu-row">
+                <!-- Card 1 -->
+                <div class="product-card">
+                    <!-- Latte Art Image -->
+                    <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Latte" class="card-img">
+                    <h3>Latte</h3>
+                    <p>Coffee 50%, milk 40%, 100ml</p>
+                    <div class="card-actions">
+                        <i class="fas fa-shopping-cart"></i>
+                        <i class="far fa-heart"></i>
+                    </div>
+                    <div class="price-badge">$3.25</div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Latte" class="card-img">
+                    <h3>Cappuccino</h3>
+                    <p>Coffee 50%, milk 40%, 200ml</p>
+                    <div class="card-actions">
+                        <i class="fas fa-shopping-cart"></i>
+                        <i class="far fa-heart"></i>
+                    </div>
+                    <div class="price-badge">$3.25</div>
+                </div>
+
+                <!-- Text Content -->
+                <div class="text-content">
+                    <h2>Choose Your<br>Favorite Flavor</h2>
+                    <p>We provide a variety of coffee flavors that are suitable for your tongue and make your day more colorful.</p>
+                    <a href="#" class="btn-primary" style="background: var(--accent-brown);">Order More</a>
+                </div>
+            </div>
+
+            <!-- Product Grid Row 2 (Reversed Layout) -->
+            <div class="menu-row reverse">
+                <!-- Text Content -->
+                <div class="text-content">
+                    <h2>We Make It<br>With Love</h2>
+                    <p>Every drop of coffee is processed with high technique and love to produce the best taste for you.</p>
+                    <a href="#" class="btn-primary" style="background: var(--accent-brown);">Order More</a>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Americano" class="card-img">
+                    <h3>Americano</h3>
+                    <p>Coffee 50%, milk 40%, 100ml</p>
+                    <div class="card-actions">
+                        <i class="fas fa-shopping-cart"></i>
+                        <i class="far fa-heart"></i>
+                    </div>
+                    <div class="price-badge">$3.25</div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1512568400610-62da28bc8a13?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Espresso" class="card-img">
+                    <h3>Espresso</h3>
+                    <p>Coffee 50%, milk 40%, 100ml</p>
+                    <div class="card-actions">
+                        <i class="fas fa-shopping-cart"></i>
+                        <i class="far fa-heart"></i>
+                    </div>
+                    <div class="price-badge">$3.25</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- App Section (Image Placeholder) -->
+        <section class="app-section">
+            <div class="app-image">
+                <!-- Image representing the mobile UI -->
+                <img src="appimg.png" alt="App Preview" style="border-radius: 20px;">
+            </div>
+            <div class="app-content">
+                <h2>App Is Available</h2>
+                <p>Get our application now to order your favorite coffee more easily and get many attractive promos.</p>
+                
+                <div class="app-buttons">
+                    <button class="app-btn"><i class="fas fa-download"></i> Download</button>
+                    <button class="app-btn"><i class="fab fa-google-play"></i> Play Store</button>
+                    <button class="app-btn"><i class="fab fa-apple"></i> App Store</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reserve Section -->
+        <section class="reserve-section">
+            <div class="reserve-text">
+                <h2>Want To Reserve a Table?</h2>
+                <p>Ensure your seat for the best coffee experience with friends and family.</p>
+            </div>
+            <a href="#" class="btn-primary" style="background-color: var(--primary-brown);">Contact Us!</a>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer-grid">
+            <div class="footer-col">
+                <h4>Our Services</h4>
+                <ul>
+                    <li>Customers</li>
+                    <li>Delivery</li>
+                    <li>Free Tea</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Our Company</h4>
+                <ul>
+                    <li>Payments</li>
+                    <li>Workers</li>
+                    <li>Coffee Makers</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Addresses</h4>
+                <ul>
+                    <li>1st cafe</li>
+                    <li>2nd cafe</li>
+                    <li>3rd cafe</li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
